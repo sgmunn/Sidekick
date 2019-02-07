@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -21,7 +21,7 @@ namespace Sidekick
         public Downloader(ILog log, string artifactCache)
         {
             this.log = log;
-            cacheLocation = Path.Combine(Environment.GetEnvironmentVariable("HOME"), "Library", "Caches", "Xamarin Sidekick", artifactCache);
+            cacheLocation = CacheFolder.GetFolder(artifactCache);
         }
 
         public async Task<string[]> Download(params string[] uris)
