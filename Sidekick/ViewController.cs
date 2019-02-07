@@ -79,6 +79,8 @@ namespace Sidekick
             await app.Start();
 
             app.RestoreAddins(progress);
+            await app.RegisterAddins(progress);
+            progress?.Report("cleaned up");
         }
     }
 }
