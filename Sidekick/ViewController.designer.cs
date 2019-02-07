@@ -16,7 +16,7 @@ namespace Sidekick
 		AppKit.NSTextFieldCell artifactsURLText { get; set; }
 
 		[Outlet]
-		AppKit.NSTextField statusLabel { get; set; }
+		AppKit.NSTextFieldCell statusText { get; set; }
 
 		[Action ("artifactURLChanged:")]
 		partial void artifactURLChanged (Foundation.NSObject sender);
@@ -28,9 +28,9 @@ namespace Sidekick
 				artifactsURLText = null;
 			}
 
-			if (statusLabel != null) {
-				statusLabel.Dispose ();
-				statusLabel = null;
+			if (statusText != null) {
+				statusText.Dispose ();
+				statusText = null;
 			}
 		}
 	}
