@@ -13,10 +13,21 @@ namespace Sidekick
 	partial class ViewController
 	{
 		[Outlet]
+		AppKit.NSTextFieldCell artifactsURLText { get; set; }
+
+		[Outlet]
 		AppKit.NSTextField statusLabel { get; set; }
+
+		[Action ("artifactURLChanged:")]
+		partial void artifactURLChanged (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (artifactsURLText != null) {
+				artifactsURLText.Dispose ();
+				artifactsURLText = null;
+			}
+
 			if (statusLabel != null) {
 				statusLabel.Dispose ();
 				statusLabel = null;

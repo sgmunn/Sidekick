@@ -5,10 +5,14 @@ using Foundation;
 
 namespace Sidekick
 {
+    // TODO: clear cache command
+    // TODO: global restore apps if we happen to fail for some reason
+
+
     [Register("AppDelegate")]
     public class AppDelegate : NSApplicationDelegate
     {
-        private readonly ApplicationActionCenter actionCenter;
+        public readonly ApplicationActionCenter actionCenter;
 
         public AppDelegate()
         {
@@ -37,7 +41,9 @@ namespace Sidekick
                 var ext = Path.GetExtension(filenames[0]);
                 if (string.Equals(ext, ".json", System.StringComparison.OrdinalIgnoreCase))
                 {
-                    Test(filenames[0]);
+                    NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
+                    var vc = NSApplication.SharedApplication.MainWindow.ContentViewController as ViewController;
+                    vc.StartBuddyTest(filenames[0]);
                 }
             }
         }
@@ -46,31 +52,6 @@ namespace Sidekick
         public new bool OpenFile(NSApplication sender, string filename)
         {
             return true;
-        }
-
-        async void Test(string artifactFile)
-        {
-            // TODO: pass a cancellation token around to stop the process
-            var progress = NSApplication.SharedApplication.MainWindow.ContentViewController as IProgress<string>;
-            NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
-
-            // open the artifacts json and process it
-            var app = this.actionCenter.SelectedApp;
-            if (app == null)
-            {
-                progress?.Report("No application is selected");
-                return;
-            }
-
-            var x = new BuddyTest(artifactFile, app);
-
-            await x.DownloadArtifactsAsync(progress);
-            await app.RegisterAddins(progress);
-
-            progress?.Report("launching app and waiting for exit");
-            await app.Start();
-
-            app.RestoreAddins(progress);
         }
     }
 }
