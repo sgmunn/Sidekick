@@ -17,6 +17,8 @@ namespace Sidekick
         {
             base.ViewDidLoad();
 
+            this.statusLabel.StringValue = "hello there";
+
             this.progressLabel = new NSTextField();
             this.progressLabel.TranslatesAutoresizingMaskIntoConstraints = false;
             this.progressLabel.Bezeled = false;
